@@ -37,5 +37,5 @@ public class Order {
     private Payment payment;
 
     @OneToOne(mappedBy = "order")
-    private ShipmentDetalis shipmentDetalis;
+    private ShipmentDetails shipmentDetalis;
 }

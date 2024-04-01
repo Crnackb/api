@@ -1,11 +1,16 @@
 package edu.unimagdalena.api.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-public class ShipmentDetalis {
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "shipment_details")
+public class ShipmentDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
