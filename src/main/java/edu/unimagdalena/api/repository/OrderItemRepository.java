@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import edu.unimagdalena.api.entity.OrderItem;
-import edu.unimagdalena.api.entity.Product;
+import edu.unimagdalena.api.entities.OrderItem;
 
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
@@ -16,8 +15,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     List<OrderItem> findByOrderId(Long orderId);
 
     @Query("SELECT oi FROM OrderItem oi WHERE oi.product.id = ?1")
-    List<OrderItem> findByProductId(Product productId);
+    List<OrderItem> findByProductId(Long productId);
 
-    @Query("SELECT SUM(oi.unitPrice) FROM OrderItem oi WHERE oi.product.id = ?1")
-    Float calculateTotalSalesForProduct(Long productId);
+    @Query("SELECT SUM(oi.unitPrice) FROM OrderItem oi WHERE oi.product.name = ?1")
+    Float calculateTotalSalesForProduct(String productName);
 }

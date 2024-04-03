@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import edu.unimagdalena.api.entity.ShipmentDetails;
-import edu.unimagdalena.api.entity.enums.OrderStatus;
+import edu.unimagdalena.api.entities.ShipmentDetails;
+import edu.unimagdalena.api.entities.enums.OrderStatus;
 
 @Repository
 public interface ShipmentDetailsRepository extends JpaRepository<ShipmentDetails, Long> {

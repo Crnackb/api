@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import edu.unimagdalena.api.entity.Customer;
+import edu.unimagdalena.api.entities.Customer;
 
 import java.util.List;
 
@@ -18,6 +18,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByAddress(String address);
 
     @Query("SELECT c FROM Customer c WHERE lower(c.name) LIKE lower(concat(?1, '%'))")
-    List<Customer> findByNameStartsWith(String name);
+    List<Customer> findByNameStartsWith(String nombre);
 
 }
