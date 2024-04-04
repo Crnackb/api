@@ -1,9 +1,9 @@
-package edu.unimagdalena.api.entity;
+package edu.unimagdalena.api.entities;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import edu.unimagdalena.api.entity.enums.OrderStatus;
+import edu.unimagdalena.api.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

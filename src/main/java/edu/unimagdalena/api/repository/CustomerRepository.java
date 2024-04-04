@@ -18,6 +18,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByAddress(String address);
 
     @Query("SELECT c FROM Customer c WHERE lower(c.name) LIKE lower(concat(?1, '%'))")
-    List<Customer> findByNameStartsWith(String nombre);
+    List<Customer> findByNameStartsWith(String name);
 
 }

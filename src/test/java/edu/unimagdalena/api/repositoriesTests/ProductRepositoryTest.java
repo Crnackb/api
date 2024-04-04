@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.unimagdalena.api.AbstractIntegrationDBTest;
 
-import edu.unimagdalena.api.entity.Product;
+import edu.unimagdalena.api.entities.Product;
 import edu.unimagdalena.api.repository.ProductRepository;
 
 public class ProductRepositoryTest extends AbstractIntegrationDBTest {

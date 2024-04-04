@@ -1,5 +1,5 @@
 
-package edu.unimagdalena.api.entity;
+package edu.unimagdalena.api.entities;
 
 import java.util.List;
 import jakarta.persistence.*;

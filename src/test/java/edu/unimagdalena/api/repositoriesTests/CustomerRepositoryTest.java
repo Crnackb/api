@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import edu.unimagdalena.api.AbstractIntegrationDBTest;
-import edu.unimagdalena.api.entity.Customer;
+import edu.unimagdalena.api.entities.Customer;
 import edu.unimagdalena.api.repository.CustomerRepository;
 
 
@@ -21,11 +21,13 @@ class CustomerRepositoryTest extends AbstractIntegrationDBTest{
     }
 
     Customer customer1 = Customer.builder()
+            .id(1l)
             .name("pepe")
             .email("pepe@example.co")
             .address("1234")
             .orders(null)
             .build();
+            
     Customer customer2 = Customer.builder()
             .name("pedro")
             .email("pedro@example.co")

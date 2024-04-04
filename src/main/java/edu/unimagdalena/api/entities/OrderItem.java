@@ -1,4 +1,4 @@
-package edu.unimagdalena.api.entity;
+package edu.unimagdalena.api.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -12,17 +12,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.unimagdalena.api.AbstractIntegrationDBTest;
-import edu.unimagdalena.api.entity.Order;
-import edu.unimagdalena.api.entity.OrderItem;
-import edu.unimagdalena.api.entity.Product;
-import edu.unimagdalena.api.entity.enums.OrderStatus;
+import edu.unimagdalena.api.entities.Order;
+import edu.unimagdalena.api.entities.OrderItem;
+import edu.unimagdalena.api.entities.Product;
+import edu.unimagdalena.api.entities.enums.OrderStatus;
 import edu.unimagdalena.api.repository.OrderItemRepository;
 import edu.unimagdalena.api.repository.OrderRepository;
 import edu.unimagdalena.api.repository.ProductRepository;
 
 
 public class OrderItemRepositoryTest extends AbstractIntegrationDBTest{
-
+    
     OrderItemRepository orderItemRepository;
     @Autowired
     OrderRepository orderRepository;
@@ -155,17 +155,15 @@ public class OrderItemRepositoryTest extends AbstractIntegrationDBTest{
     @DisplayName("test calculateTotalSalesForProduct")
     void givenOrderItem_ThencalculateTotalSalesForProduct(){
         //given
-        Long id = product1.getId();
+        String productName = product1.getName();
         Product saved = productRepository.save(product1);
         orderItem1.setProduct(saved);
         orderItem2.setProduct(saved);
         orderItemRepository.save(orderItem1);
         orderItemRepository.save(orderItem2);
-        Float totalsales = orderItemRepository.calculateTotalSalesForProduct(id);
+        Float totalsales = orderItemRepository.calculateTotalSalesForProduct(productName);
         //then
-        assertThat(totalsales == 40.0);
-
-
+        assertThat(totalsales).isEqualTo(40.0f);
     }
 
 

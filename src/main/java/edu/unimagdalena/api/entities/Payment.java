@@ -1,8 +1,8 @@
-package edu.unimagdalena.api.entity;
+package edu.unimagdalena.api.entities;
 
 import java.time.LocalDateTime;
 
-import edu.unimagdalena.api.entity.enums.PaymentMethod;
+import edu.unimagdalena.api.entities.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

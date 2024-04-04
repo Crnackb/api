@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.unimagdalena.api.AbstractIntegrationDBTest;
-import edu.unimagdalena.api.entity.Order;
-import edu.unimagdalena.api.entity.Payment;
-import edu.unimagdalena.api.entity.enums.OrderStatus;
-import edu.unimagdalena.api.entity.enums.PaymentMethod;
+import edu.unimagdalena.api.entities.Order;
+import edu.unimagdalena.api.entities.Payment;
+import edu.unimagdalena.api.entities.enums.OrderStatus;
+import edu.unimagdalena.api.entities.enums.PaymentMethod;
 import edu.unimagdalena.api.repository.OrderRepository;
 import edu.unimagdalena.api.repository.PaymentRepository;
 
@@ -114,7 +114,7 @@ public class PaymentRepositoryTest extends AbstractIntegrationDBTest{
         paymentRepository.save(payment1);
         paymentRepository.save(payment2);
         //when
-        List<Payment> paymentsInDates = paymentRepository.selectBetweenDates(startDate, endDate);
+        List<Payment> paymentsInDates = paymentRepository.findBetweenDates(startDate, endDate);
         //then
         assertThat(paymentsInDates.size()==2);
     }
@@ -127,7 +127,7 @@ public class PaymentRepositoryTest extends AbstractIntegrationDBTest{
         orderRepository.save(order1);
         payment1.setOrder(order1);
         paymentRepository.save(payment1);
-        List<Payment> payments = paymentRepository.selectByOrderIdAndPaymentMethod(id, PaymentMethod.CASH);
+        List<Payment> payments = paymentRepository.findByOrderIdAndPaymentMethod(id, PaymentMethod.CASH);
         //then
         assertThat(payments.size()==1);
     }

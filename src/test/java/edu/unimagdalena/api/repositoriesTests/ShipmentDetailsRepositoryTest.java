@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.unimagdalena.api.AbstractIntegrationDBTest;
-import edu.unimagdalena.api.entity.Order;
-import edu.unimagdalena.api.entity.ShipmentDetails;
-import edu.unimagdalena.api.entity.enums.OrderStatus;
+import edu.unimagdalena.api.entities.Order;
+import edu.unimagdalena.api.entities.ShipmentDetails;
+import edu.unimagdalena.api.entities.enums.OrderStatus;
 import edu.unimagdalena.api.repository.OrderRepository;
 import edu.unimagdalena.api.repository.ShipmentDetailsRepository;
 
@@ -141,7 +141,4 @@ public class ShipmentDetailsRepositoryTest extends AbstractIntegrationDBTest{
         //then
         assertThat(findShipmentDetails.size()==1);
     }
-
-
-
 }

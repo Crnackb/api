@@ -3,38 +3,39 @@ package edu.unimagdalena.api.service.implementations;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.unimagdalena.api.entities.Customer;
 import edu.unimagdalena.api.entities.dto.CustomerDTO;
 import edu.unimagdalena.api.entities.exceptions.NotAbleToDeleteException;
 import edu.unimagdalena.api.entities.exceptions.ObjectNotFoundException;
-import edu.unimagdalena.api.entities.mapper.CustomerMapper;
 import edu.unimagdalena.api.repository.CustomerRepository;
 import edu.unimagdalena.api.service.services.CustomerService;
+import edu.unimagdalena.api.entities.mapper.CustomerMapper;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerRepository customerRepository;
-    private final CustomerMapper customerMapper;
+    private CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper) {
+    @Autowired
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.customerMapper = customerMapper;
     }
 
     @Override
     public CustomerDTO create(CustomerDTO customerDTO) {
-        Customer customerSaved = customerRepository.save(customerMapper.customerDtoToCustomer(customerDTO));
-        return customerMapper.customerToCustomerDto(customerSaved);
+        Customer customer = CustomerMapper.INSTANCE.customerDtoToCustomer(customerDTO);
+        Customer customerSaved = customerRepository.save(customer);
+        return CustomerMapper.INSTANCE.customerToCustomerDto(customerSaved);
     }
 
     @Override
     public CustomerDTO getCustomerById(Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ObjectNotFoundException("Customer not found"));
-        return customerMapper.customerToCustomerDto(customer);
+        return CustomerMapper.INSTANCE.customerToCustomerDto(customer);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerInDb.setName(customerDTO.name());
         customerInDb.setEmail(customerDTO.email());
         customerInDb.setAddress(customerDTO.address());
-        return customerMapper.customerToCustomerDto(customerRepository.save(customerInDb));
+        return CustomerMapper.INSTANCE.customerToCustomerDto(customerRepository.save(customerInDb));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
         return customers.stream()
-                .map(customerMapper::customerToCustomerDto)
+                .map(CustomerMapper.INSTANCE::customerToCustomerDto)
                 .toList();
     }
 
@@ -67,14 +68,14 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByEmail(email);
         if (Objects.isNull(customer))
             throw new ObjectNotFoundException("Customer not found");
-        return customerMapper.customerToCustomerDto(customer);
+        return CustomerMapper.INSTANCE.customerToCustomerDto(customer);
     }
 
     @Override
     public List<CustomerDTO> getCustomersByAddress(String address) {
         List<Customer> customers = customerRepository.findByAddress(address);
         return customers.stream()
-                .map(customerMapper::customerToCustomerDto)
+                .map(CustomerMapper.INSTANCE::customerToCustomerDto)
                 .toList();
     }
 
@@ -82,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getCustomersByNameStartsWith(String nombre) {
         List<Customer> customers = customerRepository.findByNameStartsWith(nombre);
         return customers.stream()
-                .map(customerMapper::customerToCustomerDto)
+                .map(CustomerMapper.INSTANCE::customerToCustomerDto)
                 .toList();
     }
 

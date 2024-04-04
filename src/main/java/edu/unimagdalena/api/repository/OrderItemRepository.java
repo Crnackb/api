@@ -17,6 +17,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query("SELECT oi FROM OrderItem oi WHERE oi.product.id = ?1")
     List<OrderItem> findByProductId(Long productId);
 
-    @Query("SELECT SUM(oi.unitPrice) FROM OrderItem oi WHERE oi.product.name = ?1")
+    @Query("SELECT COALESCE(SUM(oi.unitPrice * oi.amount), 0) FROM OrderItem oi WHERE oi.product.name = ?1")
     Float calculateTotalSalesForProduct(String productName);
 }

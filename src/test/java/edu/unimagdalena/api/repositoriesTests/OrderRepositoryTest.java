@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import edu.unimagdalena.api.AbstractIntegrationDBTest;
-import edu.unimagdalena.api.entity.Customer;
-import edu.unimagdalena.api.entity.Order;
-import edu.unimagdalena.api.entity.enums.OrderStatus;
+import edu.unimagdalena.api.entities.Customer;
+import edu.unimagdalena.api.entities.Order;
+import edu.unimagdalena.api.entities.enums.OrderStatus;
 import edu.unimagdalena.api.repository.CustomerRepository;
 import edu.unimagdalena.api.repository.OrderRepository;
 
