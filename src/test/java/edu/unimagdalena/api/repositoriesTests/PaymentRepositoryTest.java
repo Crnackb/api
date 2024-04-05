@@ -74,7 +74,7 @@ public class PaymentRepositoryTest extends AbstractIntegrationDBTest{
         paymentRepository.save(payment2);
         List<Payment> payments = paymentRepository.findAll();
         //then
-        assertThat(payments.size()==2);
+        assertThat(payments.size()).isEqualTo(2);
     }
 
     @Test
@@ -116,7 +116,7 @@ public class PaymentRepositoryTest extends AbstractIntegrationDBTest{
         //when
         List<Payment> paymentsInDates = paymentRepository.findBetweenDates(startDate, endDate);
         //then
-        assertThat(paymentsInDates.size()==2);
+        assertThat(paymentsInDates.size()).isEqualTo(2);
     }
 
     @Test
@@ -129,7 +129,7 @@ public class PaymentRepositoryTest extends AbstractIntegrationDBTest{
         paymentRepository.save(payment1);
         List<Payment> payments = paymentRepository.findByOrderIdAndPaymentMethod(id, PaymentMethod.CASH);
         //then
-        assertThat(payments.size()==1);
+        assertThat(payments.size()).isEqualTo(1);
     }
 
 

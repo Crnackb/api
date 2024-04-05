@@ -1,6 +1,5 @@
 package edu.unimagdalena.api.servicesTests;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -8,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,6 @@ import edu.unimagdalena.api.entities.Customer;
 import edu.unimagdalena.api.entities.Order;
 import edu.unimagdalena.api.entities.OrderItem;
 import edu.unimagdalena.api.entities.Product;
-import edu.unimagdalena.api.entities.dto.CustomerDTO;
 import edu.unimagdalena.api.entities.dto.OrderItemDTO;
 import edu.unimagdalena.api.entities.enums.OrderStatus;
 import edu.unimagdalena.api.entities.mapper.OrderItemMapper;
@@ -92,7 +91,10 @@ public class OrderItemServiceImplTest {
 
     @Test
     void testCalculateTotalSalesForProduct() {
-
+        //given
+        when(orderItemRepository.calculateTotalSalesForProduct(anyString())).thenReturn(20f);
+        //then
+        assertThat(orderItemService.calculateTotalSalesForProduct("sopa")).isEqualTo(20f);
     }
 
     @Test
@@ -118,26 +120,49 @@ public class OrderItemServiceImplTest {
 
     @Test
     void testGetAllOrderItems() {
-
+        //when
+        orderItemService.create(orderItemDTO);
+        orderItemService.create(orderItemDTO);
+        when(orderItemRepository.findAll()).thenReturn(List.of(orderItem1));
+        //then
+        assertThat(orderItemService.getAllOrderItems().get(0).id()).isEqualTo(orderItem1.getId());
     }
 
     @Test
     void testGetOrderItemById() {
-
+        //when
+        orderItemService.create(orderItemDTO);
+        when(orderItemRepository.findById(anyLong())).thenReturn(Optional.ofNullable(orderItem1));
+        OrderItemDTO orderItemFind = orderItemService.getOrderItemById(4l);
+        //then
+        assertThat(orderItemFind.id()).isEqualTo(4l);
     }
 
     @Test
     void testGetOrderItemsByOrderId() {
-
+        orderItemService.create(orderItemDTO);
+        when(orderItemRepository.findByOrderId(anyLong())).thenReturn(List.of(orderItem1));
+        List<OrderItemDTO> orderItemFind = orderItemService.getOrderItemsByOrderId(4l);
+        //then
+        assertThat(orderItemFind.size()).isEqualTo(1);
     }
 
     @Test
     void testGetOrderItemsByProductId() {
-
+        orderItemService.create(orderItemDTO);
+        when(orderItemRepository.findByProductId(anyLong())).thenReturn(List.of(orderItem1));
+        List<OrderItemDTO> orderItemFind = orderItemService.getOrderItemsByProductId(4l);
+        //then
+        assertThat(orderItemFind.size()).isEqualTo(1);
     }
 
     @Test
     void testUpdate() {
-
+        //when
+        orderItemService.create(orderItemDTO);
+        when(orderItemRepository.findById(anyLong())).thenReturn(Optional.ofNullable(orderItem1));
+        OrderItemDTO orderItemFind = orderItemService.update(orderItemDTO, 4l);
+        //then
+        assertEquals(4l, orderItemFind.id());
     }
 }

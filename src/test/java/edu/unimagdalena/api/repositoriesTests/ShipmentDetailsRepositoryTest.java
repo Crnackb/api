@@ -73,7 +73,7 @@ public class ShipmentDetailsRepositoryTest extends AbstractIntegrationDBTest{
         shipmentDetailsRepository.save(shipmentDetails2);
         List<ShipmentDetails> shipmentDetails = shipmentDetailsRepository.findAll();
         //then
-        assertThat(shipmentDetails.size()==2);
+        assertThat(shipmentDetails.size()).isEqualTo(2);
     }
 
     @Test
@@ -139,6 +139,6 @@ public class ShipmentDetailsRepositoryTest extends AbstractIntegrationDBTest{
         shipmentDetailsRepository.save(shipmentDetails1);
         List<ShipmentDetails> findShipmentDetails = shipmentDetailsRepository.findByOrderStatus(orderStatus);
         //then
-        assertThat(findShipmentDetails.size()==1);
+        assertThat(findShipmentDetails.size()).isEqualTo(1);
     }
 }

@@ -90,7 +90,7 @@ public class OrderItemRepositoryTest extends AbstractIntegrationDBTest{
         orderItemRepository.save(orderItem2);
         List<OrderItem> orderItems = orderItemRepository.findAll();
         //then
-        assertThat(orderItems.size()==2);
+        assertThat(orderItems.size()).isEqualTo(2);
     }
 
     @Test
@@ -117,7 +117,7 @@ public class OrderItemRepositoryTest extends AbstractIntegrationDBTest{
             orderItem.setAmount(newAmount);
             OrderItem orderItemUpdate = orderItemRepository.save(orderItem);
             //then
-            assertThat(orderItemUpdate.getAmount()==newAmount);
+            assertThat(orderItemUpdate.getAmount()).isEqualTo(newAmount);
         }
     }
 
@@ -133,7 +133,7 @@ public class OrderItemRepositoryTest extends AbstractIntegrationDBTest{
         orderItemRepository.save(orderItem2);
         List<OrderItem> findOrderItem = orderItemRepository.findByOrderId(id);
         //then
-        assertThat(findOrderItem.size()==2);
+        assertThat(findOrderItem.size()).isEqualTo(2);
     }
 
     @Test
@@ -148,7 +148,7 @@ public class OrderItemRepositoryTest extends AbstractIntegrationDBTest{
         orderItemRepository.save(orderItem2);
         List<OrderItem> findOrderItem = orderItemRepository.findByProductId(id);
         //then
-        assertThat(findOrderItem.size()==2);
+        assertThat(findOrderItem.size()).isEqualTo(2);
     }
 
     @Test
@@ -165,8 +165,4 @@ public class OrderItemRepositoryTest extends AbstractIntegrationDBTest{
         //then
         assertThat(totalsales).isEqualTo(40.0f);
     }
-
-
-
-
 }

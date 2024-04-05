@@ -3,6 +3,7 @@ package edu.unimagdalena.api.service.implementations;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.unimagdalena.api.entities.ShipmentDetails;
@@ -18,26 +19,24 @@ import edu.unimagdalena.api.service.services.ShipmentDetailsService;
 public class ShipmentDetailsImpl implements ShipmentDetailsService {
 
     private final ShipmentDetailsRepository shipmentDetailsRepository;
-    private final ShipmentDetailsMapper shipmentDetailsMapper;
 
-    public ShipmentDetailsImpl(ShipmentDetailsRepository shipmentDetailsRepository,
-            ShipmentDetailsMapper shipmentDetailsMapper) {
+    @Autowired
+    public ShipmentDetailsImpl(ShipmentDetailsRepository shipmentDetailsRepository) {
         this.shipmentDetailsRepository = shipmentDetailsRepository;
-        this.shipmentDetailsMapper = shipmentDetailsMapper;
     }
 
     @Override
     public ShipmentDetailsDTO create(ShipmentDetailsDTO shipmentDetailDTO) {
         ShipmentDetails shipmentDetailsSaved = shipmentDetailsRepository
-                .save(shipmentDetailsMapper.shipmentDetailsDtoToShipmentDetails(shipmentDetailDTO));
-        return shipmentDetailsMapper.shipmentDetailsToShipmentDetailsDto(shipmentDetailsSaved);
+                .save(ShipmentDetailsMapper.INSTANCE.shipmentDetailsDtoToShipmentDetails(shipmentDetailDTO));
+        return ShipmentDetailsMapper.INSTANCE.shipmentDetailsToShipmentDetailsDto(shipmentDetailsSaved);
     }
 
     @Override
     public ShipmentDetailsDTO getShipmentDetailById(Long shipmentDetailId) {
         ShipmentDetails shipmentDetails = shipmentDetailsRepository.findById(shipmentDetailId)
                 .orElseThrow(() -> new ObjectNotFoundException("ShipmentDetails not found"));
-        return shipmentDetailsMapper.shipmentDetailsToShipmentDetailsDto(shipmentDetails);
+        return ShipmentDetailsMapper.INSTANCE.shipmentDetailsToShipmentDetailsDto(shipmentDetails);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class ShipmentDetailsImpl implements ShipmentDetailsService {
         shipmentDetailsInDb.setTransporter(shipmentDetailDTO.transporter());
         shipmentDetailsInDb.setGuideNumber(shipmentDetailDTO.guideNumber());
         shipmentDetailsInDb.setShipmentAddress(shipmentDetailDTO.shipmentAddress());
-        return shipmentDetailsMapper.shipmentDetailsToShipmentDetailsDto(shipmentDetailsRepository
+        return ShipmentDetailsMapper.INSTANCE.shipmentDetailsToShipmentDetailsDto(shipmentDetailsRepository
                 .save(shipmentDetailsInDb));
     }
 
@@ -62,7 +61,7 @@ public class ShipmentDetailsImpl implements ShipmentDetailsService {
     public List<ShipmentDetailsDTO> getAllShipmentDetails() {
         List<ShipmentDetails> shipmentDetails = shipmentDetailsRepository.findAll();
         return shipmentDetails.stream()
-                .map(shipmentDetailsMapper::shipmentDetailsToShipmentDetailsDto)
+                .map(ShipmentDetailsMapper.INSTANCE::shipmentDetailsToShipmentDetailsDto)
                 .toList();
     }
 
@@ -72,19 +71,19 @@ public class ShipmentDetailsImpl implements ShipmentDetailsService {
         if (Objects.isNull(shipmentDetails)) {
             throw new ObjectNotFoundException("ShipmentDetails not found");
         }
-        return shipmentDetailsMapper.shipmentDetailsToShipmentDetailsDto(shipmentDetails);
+        return ShipmentDetailsMapper.INSTANCE.shipmentDetailsToShipmentDetailsDto(shipmentDetails);
     }
 
     @Override
     public List<ShipmentDetailsDTO> getByTransporter(String transporter) {
         List<ShipmentDetails> shipmentDetails = shipmentDetailsRepository.findByTransporter(transporter);
-        return shipmentDetails.stream().map(shipmentDetailsMapper::shipmentDetailsToShipmentDetailsDto).toList();
+        return shipmentDetails.stream().map(ShipmentDetailsMapper.INSTANCE::shipmentDetailsToShipmentDetailsDto).toList();
     }
 
     @Override
     public List<ShipmentDetailsDTO> getByOrderStatus(OrderStatus orderStatus) {
         List<ShipmentDetails> shipmentDetails = shipmentDetailsRepository.findByOrderStatus(orderStatus);
-        return shipmentDetails.stream().map(shipmentDetailsMapper::shipmentDetailsToShipmentDetailsDto).toList();
+        return shipmentDetails.stream().map(ShipmentDetailsMapper.INSTANCE::shipmentDetailsToShipmentDetailsDto).toList();
     }
 
 }

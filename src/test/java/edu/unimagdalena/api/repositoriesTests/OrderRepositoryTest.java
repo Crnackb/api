@@ -73,7 +73,7 @@ class OrderRepositoryTest extends AbstractIntegrationDBTest{
         orderRepository.save(order2);
         List<Order> orders = orderRepository.findAll();
         //then
-        assertThat(orders.size()==2);
+        assertThat(orders.size()).isEqualTo(2);
     }
 
     @Test
@@ -115,7 +115,7 @@ class OrderRepositoryTest extends AbstractIntegrationDBTest{
         //when
         List<Order> ordersInDates = orderRepository.findBetweenDates(startDate, endDate);
         //then
-        assertThat(ordersInDates.size()==1);
+        assertThat(ordersInDates.size()).isEqualTo(1);
     }
 
     @Test
@@ -128,7 +128,7 @@ class OrderRepositoryTest extends AbstractIntegrationDBTest{
         orderRepository.save(order1);
         List<Order> orders = orderRepository.findByCustomerIdAndStatus(id, OrderStatus.SENT);
         //then
-        assertThat(orders.size()==1);
+        assertThat(orders.size()).isEqualTo(1);
     }
 
 

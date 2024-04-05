@@ -57,7 +57,7 @@ class CustomerRepositoryTest extends AbstractIntegrationDBTest{
         customerRepository.save(customer2);
         List<Customer> cusromers = customerRepository.findAll();
         //then
-        assertThat(cusromers.size()==2);
+        assertThat(cusromers.size()).isEqualTo(2);
     }
 
     @Test

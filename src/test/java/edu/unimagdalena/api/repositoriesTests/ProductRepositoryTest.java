@@ -60,7 +60,7 @@ public class ProductRepositoryTest extends AbstractIntegrationDBTest {
         productRepository.save(product2);
         List<Product> products = productRepository.findAll();
         //then
-        assertThat(products.size()==2);
+        assertThat(products.size()).isEqualTo(2);
     }
 
     @Test
@@ -110,7 +110,7 @@ public class ProductRepositoryTest extends AbstractIntegrationDBTest {
         productRepository.save(product2);
         List<Product> findProducts = productRepository.findProductsInStock();
         //then
-        assertThat(findProducts.size()==2);
+        assertThat(findProducts.size()).isEqualTo(2);
     }
 
     @Test
@@ -121,6 +121,6 @@ public class ProductRepositoryTest extends AbstractIntegrationDBTest {
         productRepository.save(product2);
         List<Product> findProducts = productRepository.findByMaxPriceAndStock((float)5.0, (Integer)200);
         //then
-        assertThat(findProducts.size()==1);
+        assertThat(findProducts.size()).isEqualTo(1);
     }
 }

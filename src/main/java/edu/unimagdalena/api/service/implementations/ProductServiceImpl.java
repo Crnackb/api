@@ -2,6 +2,7 @@ package edu.unimagdalena.api.service.implementations;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.unimagdalena.api.entities.Product;
@@ -16,17 +17,16 @@ import edu.unimagdalena.api.service.services.ProductService;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+    @Autowired
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.productMapper = productMapper;
     }
 
     @Override
     public ProductDTO create(ProductDTO productDTO) {
-        Product productSaved = productRepository.save(productMapper.productDtoToProduct(productDTO));
-        return productMapper.productToProductDto(productSaved);
+        Product productSaved = productRepository.save(ProductMapper.INSTANCE.productDtoToProduct(productDTO));
+        return ProductMapper.INSTANCE.productToProductDto(productSaved);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream()
-                .map(productMapper::productToProductDto)
+                .map(ProductMapper.INSTANCE::productToProductDto)
                 .toList();
     }
 
@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getByMaxPriceAndStock(Float price, Integer stock) {
         List<Product> products = productRepository.findByMaxPriceAndStock(price, stock);
         return products.stream()
-                .map(productMapper::productToProductDto)
+                .map(ProductMapper.INSTANCE::productToProductDto)
                 .toList();
     }
 
@@ -57,14 +57,14 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO getProductById(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ObjectNotFoundException("Product not found"));
-        return productMapper.productToProductDto(product);
+        return ProductMapper.INSTANCE.productToProductDto(product);
     }
 
     @Override
     public List<ProductDTO> getProductsInStock() {
         List<Product> products = productRepository.findProductsInStock();
         return products.stream()
-                .map(productMapper::productToProductDto)
+                .map(ProductMapper.INSTANCE::productToProductDto)
                 .toList();
     }
 
@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
         productInDb.setName(productDTO.name());
         productInDb.setPrice(productDTO.price());
         productInDb.setStock(productDTO.stock());
-        return productMapper.productToProductDto(productRepository.save(productInDb));
+        return ProductMapper.INSTANCE.productToProductDto(productRepository.save(productInDb));
     }
 
 }

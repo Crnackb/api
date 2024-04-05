@@ -3,6 +3,7 @@ package edu.unimagdalena.api.service.implementations;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.unimagdalena.api.entities.Order;
@@ -18,24 +19,23 @@ import edu.unimagdalena.api.service.services.OrderService;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderMapper orderMapper;
 
+    @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper) {
         this.orderRepository = orderRepository;
-        this.orderMapper = orderMapper;
     }
 
     @Override
     public OrderDTO create(OrderDTO orderDTO) {
-        Order orderSaved = orderRepository.save(orderMapper.orderDtoToOrder(orderDTO));
-        return orderMapper.orderToOrderDto(orderSaved);
+        Order orderSaved = orderRepository.save(OrderMapper.INSTANCE.orderDtoToOrder(orderDTO));
+        return OrderMapper.INSTANCE.orderToOrderDto(orderSaved);
     }
 
     @Override
     public OrderDTO getOrderById(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ObjectNotFoundException("Order not found"));
-        return orderMapper.orderToOrderDto(order);
+        return OrderMapper.INSTANCE.orderToOrderDto(order);
     }
 
     // Update only status
@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
         Order orderInDb = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ObjectNotFoundException("Order not found"));
         orderInDb.setStatus(orderDTO.status());
-        return orderMapper.orderToOrderDto(orderRepository.save(orderInDb));
+        return OrderMapper.INSTANCE.orderToOrderDto(orderRepository.save(orderInDb));
     }
 
     @Override
@@ -58,28 +58,19 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getAllOrders() {
         List<Order> customers = orderRepository.findAll();
         return customers.stream()
-                .map(orderMapper::orderToOrderDto)
+                .map(OrderMapper.INSTANCE::orderToOrderDto)
                 .toList();
     }
 
     @Override
     public List<OrderDTO> getBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
         List<Order> orders = orderRepository.findBetweenDates(startDate, endDate);
-        return orders.stream().map(orderMapper::orderToOrderDto).toList();
+        return orders.stream().map(OrderMapper.INSTANCE::orderToOrderDto).toList();
     }
 
     @Override
     public List<OrderDTO> getByCustomerIdAndStatus(Long customerId, OrderStatus status) {
         List<Order> orders = orderRepository.findByCustomerIdAndStatus(customerId, status);
-        return orders.stream().map(orderMapper::orderToOrderDto).toList();
+        return orders.stream().map(OrderMapper.INSTANCE::orderToOrderDto).toList();
     }
-
-    @Override
-    public List<OrderDTO> getOrdersWithItemsByCustomerIdFetch(Long customerId) {
-        // List<Order> orders =
-        // orderRepository.getOrdersWithItemsByCustomerIdFetch(customerId);
-        // return orders.stream().map(orderMapper::orderToOrderDto).toList();
-        return null;
-    }
-
 }

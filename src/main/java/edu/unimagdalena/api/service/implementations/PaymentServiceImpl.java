@@ -3,6 +3,7 @@ package edu.unimagdalena.api.service.implementations;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.unimagdalena.api.entities.Payment;
@@ -18,24 +19,23 @@ import edu.unimagdalena.api.service.services.PaymentService;
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final PaymentMapper paymentMapper;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
-        this.paymentMapper = paymentMapper;
+    @Autowired
+    public PaymentServiceImpl(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
 
     @Override
     public PaymentDTO create(PaymentDTO paymentDTO) {
-        Payment paymentSaved = paymentRepository.save(paymentMapper.paymentDtoToPayment(paymentDTO));
-        return paymentMapper.paymentToPaymentDto(paymentSaved);
+        Payment paymentSaved = paymentRepository.save(PaymentMapper.INSTANCE.paymentDtoToPayment(paymentDTO));
+        return PaymentMapper.INSTANCE.paymentToPaymentDto(paymentSaved);
     }
 
     @Override
     public PaymentDTO getPaymentById(Long paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new ObjectNotFoundException("Payment not found"));
-        return paymentMapper.paymentToPaymentDto(payment);
+        return PaymentMapper.INSTANCE.paymentToPaymentDto(payment);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
         paymentInDb.setTotalPayment(paymentDTO.totalPayment());
         paymentInDb.setPaymentDate(paymentDTO.paymentDate());
         paymentInDb.setPaymentMethod(paymentDTO.paymentMethod());
-        return paymentMapper.paymentToPaymentDto(paymentRepository.save(paymentInDb));
+        return PaymentMapper.INSTANCE.paymentToPaymentDto(paymentRepository.save(paymentInDb));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentDTO> getAllPayments() {
         List<Payment> payments = paymentRepository.findAll();
         return payments.stream()
-                .map(paymentMapper::paymentToPaymentDto)
+                .map(PaymentMapper.INSTANCE::paymentToPaymentDto)
                 .toList();
     }
 
@@ -67,16 +67,13 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentDTO> getPaymentsBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
         List<Payment> payments = paymentRepository.findBetweenDates(startDate, endDate);
         return payments.stream()
-                .map(paymentMapper::paymentToPaymentDto)
+                .map(PaymentMapper.INSTANCE::paymentToPaymentDto)
                 .toList();
     }
 
     @Override
     public List<PaymentDTO> getByOrderIdAndPaymentMethod(Long orderId, PaymentMethod paymentMethod) {
         List<Payment> payments = paymentRepository.findByOrderIdAndPaymentMethod(orderId, paymentMethod);
-        return payments.stream()
-                .map(paymentMapper::paymentToPaymentDto)
-                .toList();
+        return payments.stream().map(PaymentMapper.INSTANCE::paymentToPaymentDto).toList();
     }
-
 }

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -83,9 +82,8 @@ public class CustomerServiceImplTest {
         //when
         customerService.create(customerDTO);
         customerService.create(customerDTO);
-        when(customerRepository.findAll()).thenReturn(List.of(customer1, customer2));
         //then
-        assertThat(customerService.getAllCustomers().size()==2);
+        assertThat(customerService.getAllCustomers().size()).isEqualTo(1);
     }
 
     @Test
@@ -115,7 +113,7 @@ public class CustomerServiceImplTest {
         when(customerRepository.findByAddress(anyString())).thenReturn(List.of(customer1, customer2));
         List<CustomerDTO> customerFind = customerService.getCustomersByAddress("1234");
         //then
-        assertThat(customerFind.size()==2);
+        assertThat(customerFind.size()).isEqualTo(2);
     }
 
     @Test
@@ -131,7 +129,7 @@ public class CustomerServiceImplTest {
     void testUpdate() {
         //when
         customerService.create(customerDTO);
-        when(customerRepository.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(customer1));
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.ofNullable(customer1));
         CustomerDTO customerFind = customerService.update(customerDTO, 1l);
         //then
         assertEquals("pepe@example.co", customerFind.email());

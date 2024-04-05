@@ -23,7 +23,4 @@ public interface OrderService {
     List<OrderDTO> getBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
 
     List<OrderDTO> getByCustomerIdAndStatus(Long customerId, OrderStatus status);
-
-    List<OrderDTO> getOrdersWithItemsByCustomerIdFetch(Long customerId);
-
 }
