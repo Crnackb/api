@@ -64,6 +64,12 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public PaymentDTO getPaymentByOrderId(Long orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId);
+        return PaymentMapper.INSTANCE.paymentToPaymentDto(payment);
+    }
+
+    @Override
     public List<PaymentDTO> getPaymentsBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
         List<Payment> payments = paymentRepository.findBetweenDates(startDate, endDate);
         return payments.stream()

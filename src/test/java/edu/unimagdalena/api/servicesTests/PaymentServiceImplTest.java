@@ -133,6 +133,17 @@ public class PaymentServiceImplTest {
     }
 
     @Test
+    void testGetPaymentByOrderId() {
+        //when
+        paymentService.create(paymentDTO);
+        when(paymentRepository.findByOrderId(anyLong())).thenReturn(payment1);
+        PaymentDTO payment = paymentService.getPaymentByOrderId(order1.getId());
+        //then
+        assertNotNull(payment);
+        assertEquals(1l, payment.orderId());
+    }
+
+    @Test
     void testGetPaymentsBetweenDates() {
         //when
         paymentService.create(paymentDTO);

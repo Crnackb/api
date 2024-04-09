@@ -138,15 +138,14 @@ public class OrderItemRepositoryTest extends AbstractIntegrationDBTest{
 
     @Test
     @DisplayName("test findByOrderId")
-    void givenOrderItem_ThenfindByProductId(){
+    void givenOrderItem_ThenfindByOrderId(){
         //given
-        Long id = product1.getId();
-        Product saved = productRepository.save(product1);
-        orderItem1.setProduct(saved);
-        orderItem2.setProduct(saved);
+        Order savedOrder = orderRepository.save(order1);
+        orderItem1.setOrder(savedOrder);
+        orderItem2.setOrder(savedOrder);
         orderItemRepository.save(orderItem1);
         orderItemRepository.save(orderItem2);
-        List<OrderItem> findOrderItem = orderItemRepository.findByProductId(id);
+        List<OrderItem> findOrderItem = orderItemRepository.findByOrderId(savedOrder.getId());
         //then
         assertThat(findOrderItem.size()).isEqualTo(2);
     }

@@ -61,6 +61,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductDTO getByName(String name) {
+        Product product = productRepository.findByName(name);
+        return ProductMapper.INSTANCE.productToProductDto(product);
+    }
+
+    @Override
+    public List<ProductDTO> getByPrice(Float price) {
+        List<Product> products = productRepository.findByPrice(price);
+        return products.stream()
+                .map(ProductMapper.INSTANCE::productToProductDto)
+                .toList();
+    }
+
+    @Override
     public List<ProductDTO> getProductsInStock() {
         List<Product> products = productRepository.findProductsInStock();
         return products.stream()

@@ -63,10 +63,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDTO> getOrdersByCustomerId(Long customerId) {
+        List<Order> orders = orderRepository.findByCustomerId(customerId);
+        return orders.stream().map(OrderMapper.INSTANCE::orderToOrderDto).toList();
+    }
+
+    @Override
     public List<OrderDTO> getBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
         List<Order> orders = orderRepository.findBetweenDates(startDate, endDate);
         return orders.stream().map(OrderMapper.INSTANCE::orderToOrderDto).toList();
     }
+
+
+
 
     @Override
     public List<OrderDTO> getByCustomerIdAndStatus(Long customerId, OrderStatus status) {

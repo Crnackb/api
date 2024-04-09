@@ -1,9 +1,7 @@
 package edu.unimagdalena.api.entities.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException {
-
     public ObjectNotFoundException() {
-
     }
 
     public ObjectNotFoundException(String message) {
@@ -14,4 +12,11 @@ public class ObjectNotFoundException extends RuntimeException {
         super(message, cause);
     }
 
+    public ObjectNotFoundException(Throwable cause) {
+        super(cause);
+    }
+
+    public ObjectNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

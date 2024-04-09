@@ -17,7 +17,7 @@ import edu.unimagdalena.api.repository.OrderRepository;
 class OrderRepositoryTest extends AbstractIntegrationDBTest{
 
     OrderRepository orderRepository;
-    @Autowired
+
     CustomerRepository customerRepository;
 
     @Autowired
@@ -117,6 +117,21 @@ class OrderRepositoryTest extends AbstractIntegrationDBTest{
         //then
         assertThat(ordersInDates.size()).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("test findByCustomerId")
+    void givenCustomerId_ThenFindOrders(){
+        //given
+        Long id = customer1.getId();
+        customerRepository.save(customer1);
+        order1.setCustomer(customer1);
+        orderRepository.save(order1);
+        //when
+        List<Order> orders = orderRepository.findByCustomerId(id);
+        //then
+        assertThat(orders.size()).isEqualTo(1);
+    }
+
 
     @Test
     @DisplayName("test findByCustomerIdAndStatus")

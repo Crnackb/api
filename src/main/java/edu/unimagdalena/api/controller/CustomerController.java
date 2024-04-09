@@ -20,7 +20,7 @@ public class CustomerController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<CustomerDTO>> getCustomers() {
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
         List<CustomerDTO> customers = customerService.getAllCustomers();
         return ResponseEntity.ok().body(customers);
     }
@@ -47,7 +47,7 @@ public class CustomerController {
             customerService.delete(id);
             return ResponseEntity.ok().build();
         } catch (NotAbleToDeleteException e) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
     }
 

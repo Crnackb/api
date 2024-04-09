@@ -19,4 +19,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o WHERE o.customer.id = ?1 AND o.status = ?2")
     List<Order> findByCustomerIdAndStatus(Long customerId, OrderStatus status);
 
+    @Query("SELECT o FROM Order o WHERE o.customer.id = ?1")
+    List<Order> findByCustomerId(Long customerId);
+
 }

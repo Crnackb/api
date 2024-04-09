@@ -20,6 +20,8 @@ public interface PaymentService {
 
     List<PaymentDTO> getAllPayments();
 
+   PaymentDTO getPaymentByOrderId(Long orderId);
+
     List<PaymentDTO> getPaymentsBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
 
     List<PaymentDTO> getByOrderIdAndPaymentMethod(Long orderId, PaymentMethod paymentMethod);

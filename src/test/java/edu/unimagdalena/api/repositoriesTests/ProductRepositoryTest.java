@@ -19,7 +19,6 @@ public class ProductRepositoryTest extends AbstractIntegrationDBTest {
 
     ProductRepository productRepository;
 
-    @Autowired
     public ProductRepositoryTest(ProductRepository productRepository){
         this.productRepository = productRepository;
     }
@@ -100,6 +99,17 @@ public class ProductRepositoryTest extends AbstractIntegrationDBTest {
         Product findProduct = productRepository.findByName(name);
         //then
         assertThat(findProduct).isEqualTo(product1);
+    }
+
+    @Test
+    @DisplayName("test findByPrice")
+    void givenProduct_ThenFindByPrice(){
+        //given
+        Float price = product1.getPrice();
+        productRepository.save(product1);
+        List<Product> products = productRepository.findByPrice(price);
+        //then
+        assertThat(products.size()).isEqualTo(1);
     }
 
     @Test

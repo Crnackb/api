@@ -19,6 +19,10 @@ public interface ProductService {
 
     List<ProductDTO> getAllProducts();
 
+    ProductDTO getByName(String name);
+
+    List<ProductDTO> getByPrice(Float price);
+
     List<ProductDTO> getProductsInStock();
 
     List<ProductDTO> getByMaxPriceAndStock(Float price, Integer stock);

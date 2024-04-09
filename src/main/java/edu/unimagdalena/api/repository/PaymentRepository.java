@@ -13,6 +13,9 @@ import edu.unimagdalena.api.entities.enums.PaymentMethod;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
+    @Query("SELECT p FROM Payment p WHERE p.order.id = ?1")
+    Payment findByOrderId(Long orderId);
+
     @Query("SELECT p FROM Payment p WHERE p.order.orderDate BETWEEN ?1 AND ?2")
     List<Payment> findBetweenDates(LocalDateTime startDate, LocalDateTime endDate);
 
